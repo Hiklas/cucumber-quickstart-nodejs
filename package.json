@@ -18,12 +18,13 @@
     }
   ],
   "dependencies": {
-    "cucumber": "0.7.0",
-    "js-yaml": "3.4.3"
+    "cucumber": "~0.7.0",
+    "js-yaml": "~3.4.3"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
     "mocha": "~2.3.3",
-    "grunt-mocha-test": "~0.12.7"
+    "grunt-mocha-test": "~0.12.7",
+    "grunt-cucumber": "~0.3.0"
   }
 }

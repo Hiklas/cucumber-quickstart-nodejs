@@ -1,0 +1,80 @@
+
+json_schema: 'data/json_schema'
+
+webpage_client:
+  default_client: selenium
+  base_url: http://www.hiklas.co.uk/
+  selenium:
+    browser: FIREFOX
+  phantom:
+  headless:
+
+#
+# The screens data compresses quite alot of information into one table.
+# First of all it provides a mapping between a 'human readable' screen name 
+# and all of this detailed data.
+# 
+#   url: This is the relative URL to access this given page
+#   title: The text that we expect to see in the title of the page, 
+#          this is checked by the Cucumber framework, so must be exact
+#   check_for_ids: The list of CSS ids that need to be checked to be sure
+#                  we are really on this page
+#   get_here_by: How do we expect to arrive at this page, GET or POST
+#
+#   form_data: What keys for form data do we need to supply for a POST
+#      
+screens:
+  Hiklas Home Page:
+    url: /
+    title: Hiklas Ltd
+    check_for_ids: 
+        - carosel
+    get_here_by: GET
+    
+  Copyright:
+    url: /copyright.html
+    title: Copyright
+    check_for_ids:
+        - header
+    get_here_by: GET
+
+  Contact Form:
+    url: /contact
+    title: Contact
+    check_for_ids:
+        - contact-header
+    get_here_by: POST
+    form_data:
+        - name
+        - email
+        - message
+
+#
+# Look up table for user friendly names for CSS element IDs that are 
+# used for a specific lookup.
+#
+# This table is also used for element groups (below) 
+#             
+element_ids:
+    Carousel: carousel-element
+    Header: header
+    Copyright Notice: copyright-notice
+    Name Field: name-field
+    Email Field: email-field
+    Message Field: message-field
+
+element_groups:
+    Contact Form Fields:
+        - Name Field
+        - Email Field
+        - Message Field
+
+messages:
+    All Copyright Material: 'All material is Copyright'
+    
+
+test_data:
+    Test Name 0001: Terry Pratchett
+    Test Email 0001: terry.pratchett@discworld.universe
+    Test Message 0001: Hello discworld
+

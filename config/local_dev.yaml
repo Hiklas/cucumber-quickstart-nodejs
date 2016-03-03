@@ -1,0 +1,7 @@
+
+webpage_client:
+  default_client: selenium
+  base-url: http://localhost:8080/
+  
+  selenium:
+    browser: firefox

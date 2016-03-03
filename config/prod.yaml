@@ -1,0 +1,4 @@
+
+webpage_client:
+  default_client: selenium
+  base_url: https://www.hiklas.co.uk

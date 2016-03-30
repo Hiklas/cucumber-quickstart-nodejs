@@ -1,0 +1,15 @@
+
+json_schema: 'data/json_schema'
+
+webpage_client
+  default_client: selenium
+-  base_url: http://www.hiklas.com/
+  selenium:
+    browser: FIREFOX
+-  phantom:
+  headless
+
+
+
+
+

@@ -28,26 +28,8 @@ screens:
     url: /
     title: Hiklas Ltd
     check_for_ids: 
-        - carosel
+        - carousel
     get_here_by: GET
-    
-  Copyright:
-    url: /copyright.html
-    title: Copyright
-    check_for_ids:
-        - header
-    get_here_by: GET
-
-  Contact Form:
-    url: /contact
-    title: Contact
-    check_for_ids:
-        - contact-header
-    get_here_by: POST
-    form_data:
-        - name
-        - email
-        - message
 
 #
 # Look up table for user friendly names for CSS element IDs that are 
@@ -56,21 +38,16 @@ screens:
 # This table is also used for element groups (below) 
 #             
 element_ids:
-    Carousel: carousel-element
-    Header: header
-    Copyright Notice: copyright-notice
-    Name Field: name-field
-    Email Field: email-field
-    Message Field: message-field
+    Carousel: half-a-sixpence
+    Header: football
 
 element_groups:
     Contact Form Fields:
-        - Name Field
-        - Email Field
-        - Message Field
+        - Jodie Foster
+        - Aliens
 
 messages:
-    All Copyright Material: 'All material is Copyright'
+    All Around My Hat: 'I will war the green willow'
     
 
 test_data:

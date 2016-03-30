@@ -1,0 +1,12 @@
+{
+  "appenders": [
+    { 
+      "type" : "console",
+      "category" : "[all]"
+    }
+  ],
+
+  "levels" : {
+    "[all]" : "TRACE"
+  }
+}

@@ -1,6 +1,7 @@
 # Logs
 logs
 *.log
+results.txt
 
 # Runtime data
 pids
@@ -32,4 +33,3 @@ node_modules
 # IntelliJ
 .idea
 *.iml
-

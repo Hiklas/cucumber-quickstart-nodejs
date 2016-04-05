@@ -1,6 +1,8 @@
 
 
 function World() {
+  
+  this.web_client = null;
 
 }
 

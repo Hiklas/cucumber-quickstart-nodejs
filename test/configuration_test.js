@@ -7,6 +7,7 @@ var assert = require('assert'),
 
 var TEST_FILENAME = 'Bibbidy_bobbedy_boo';
 var TEST_CONFIG_FILE = './test/common.yaml';
+var TEST_CONFIG_DEV_FILE = './test/dev.yaml';
 var TEST_BROKEN_FILE = './test/common-broken.yaml';
 var TEST_MISSING_FILE = './test/test_config_missing_not_here_vanished.yml';
 
@@ -76,6 +77,17 @@ describe('Configuration', function() {
       var configObj = new config(TEST_MISSING_FILE);
       var loadedResult = configObj.isLoaded();
       assert.equal(loadedResult, false, 'Should be false to indicate no file loaded');
+      done();
+    });
+  });
+
+  describe('Creating with common and environment config', function() {
+    it('Should set the respective properties', function(done) {
+      var configObj = new config(TEST_CONFIG_FILE, TEST_CONFIG_DEV_FILE);
+      var loadedResult = configObj.isLoaded();
+      assert.equal(loadedResult, false, 'Should be false to indicate no file loaded');
+      assert.equal(configObj.common_config_file, TEST_CONFIG_FILE, 'Should be common config file');
+      assert.equal(configObj.environment_config_file, TEST_CONFIG_DEV_FILE, 'Should be environment config file');
       done();
     });
   });

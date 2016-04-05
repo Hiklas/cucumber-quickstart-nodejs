@@ -2,7 +2,7 @@
   "name": "cucumber-quickstart-nodejs",
   "title": "Cucumber Quickstart",
   "description": "Basic cucumber framework in node.js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://github.com/Hiklas/cucumber-quickstart-nodejs",
   "author": {
     "name": "Hiklas Ltd"

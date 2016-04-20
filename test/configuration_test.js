@@ -26,7 +26,7 @@ describe('Configuration', function() {
   describe('Get filename', function() {
     it('Should be the same as constructor argument', function(done) {
       var resultObj = new config(TEST_FILENAME);
-      var result = resultObj.configFilename();
+      var result = resultObj.configFilenameCommon();
 
       log.debug('Config object: ' + resultObj);
       log.debug('Config result filename: ' + result);
@@ -35,23 +35,11 @@ describe('Configuration', function() {
       done();
     });
   });
-
-  describe('Load Yaml config file', function() {
-    it('Should set loaded to true', function(done) {
-      var resultObj = new config(TEST_CONFIG_FILE);
-      var resultFilename = resultObj.configFilename();
-      var resultLoaded = resultObj.loadConfiguration();
-
-      assert.equal(resultFilename, TEST_CONFIG_FILE, 'Should be the test config filename');
-      assert.equal(resultLoaded, true, 'Should load the config file');
-      done();
-    });
-  });
-
+  
   describe('Load broken Yaml config file', function() {
     it('Should set loaded to false', function(done) {
       var resultObj = new config(TEST_BROKEN_FILE);
-      var resultFilename = resultObj.configFilename();
+      var resultFilename = resultObj.configFilenameCommon();
       var resultLoaded = resultObj.loadConfiguration();
 
       assert.equal(resultFilename, TEST_BROKEN_FILE, 'Should be the test config filename');
@@ -63,7 +51,7 @@ describe('Configuration', function() {
   describe('Load missing Yaml config file', function() {
     it('Should set loaded to false', function(done) {
       var resultObj = new config(TEST_MISSING_FILE);
-      var resultFilename = resultObj.configFilename();
+      var resultFilename = resultObj.configFilenameCommon();
       var resultLoaded = resultObj.loadConfiguration();
 
       assert.equal(resultFilename, TEST_MISSING_FILE, 'Should be the test config filename');
@@ -88,6 +76,31 @@ describe('Configuration', function() {
       assert.equal(loadedResult, false, 'Should be false to indicate no file loaded');
       assert.equal(configObj.common_config_file, TEST_CONFIG_FILE, 'Should be common config file');
       assert.equal(configObj.environment_config_file, TEST_CONFIG_DEV_FILE, 'Should be environment config file');
+      done();
+    });
+  });
+
+  describe('Creating with common and environment config', function() {
+    it('Should set the respective properties', function(done) {
+      var configObj = new config(TEST_CONFIG_FILE, TEST_CONFIG_DEV_FILE);
+      var loadedResult = configObj.isLoaded();
+      assert.equal(loadedResult, false, 'Should be false to indicate no file loaded');
+      assert.equal(configObj.common_config_file, TEST_CONFIG_FILE, 'Should be common config file');
+      assert.equal(configObj.environment_config_file, TEST_CONFIG_DEV_FILE, 'Should be environment config file');
+      done();
+    });
+  });
+
+  describe('Load Yaml config file', function() {
+    it('Should set loaded to true', function(done) {
+      var resultObj = new config(TEST_CONFIG_FILE, TEST_CONFIG_DEV_FILE);
+      var resultFilenameCommon = resultObj.configFilenameCommon();
+      var resultFilenameEnv = resultObj.configFilenameEnvironment();
+      var resultLoaded = resultObj.loadConfiguration();
+
+      assert.equal(resultFilenameCommon, TEST_CONFIG_FILE, 'Should be the test config filename');
+      assert.equal(resultFilenameEnv, TEST_CONFIG_DEV_FILE, 'Should be the environment file');
+      assert.equal(resultLoaded, true, 'Should load the config file');
       done();
     });
   });

@@ -12,8 +12,26 @@ var TEST_BROKEN_FILE = './test/common-broken.yaml';
 var TEST_MISSING_FILE = './test/test_config_missing_not_here_vanished.yaml';
 var TEST_EMPTY = './test/empty.yaml';
 
+var TEST_OBJECT = {
+  'fred' : 'ginger',
+  'jim' : {
+    'sheila' : '6502',
+    'acorn' : 'electron',
+    'dundee' : {
+       'crocodile' : 'Oz'
+    }
+  }
+};
+
 var TEST_SIMPLE_KEY = 'json_schema';
 var TEST_SIMPLE_KEY_VALUE = 'data/json_schema';
+
+var TEST_ARRAY_KEY = [ 'webpage_client', 'default_client' ];
+var TEST_ARRAY_KEY_VALUE = 'selenium';
+
+var TEST_MERGED_KEY = [ 'webpage_client', 'base_url' ];
+var TEST_MERGED_KEY_VALUE = 'http://localhost/';
+
 
 describe('Configuration', function() {
   describe('Get config object', function() {
@@ -195,6 +213,90 @@ describe('Configuration', function() {
     });
   });
 
+
+  describe('The getFromObject method', function() {
+    it('Should return a single result for a string key', function(done) {
+      var configObj = new config(TEST_CONFIG_FILE, TEST_EMPTY);
+       
+      var resultValue = configObj.getFromObject('fred', TEST_OBJECT);
+      
+      assert.equal(resultValue, 'ginger', 'Should match the correct value, was: ' + resultValue);
+      done();
+    });
+
+    it('Should return an object result for a string key', function(done) {
+      var configObj = new config(TEST_CONFIG_FILE, TEST_EMPTY);
+
+      var resultValue = configObj.getFromObject('jim', TEST_OBJECT);
+
+      assert.equal(typeof(resultValue), 'object', 'Should be an object');
+      assert.equal(resultValue.sheila, '6502', 'Should match the correct value, was: ' + resultValue.sheila);
+      assert.equal(resultValue.acorn, 'electron', 'Should match the correct value, was: ' + resultValue.acorn);
+      done();
+    });
+
+    it('Should return a string result for an array key', function(done) {
+      var configObj = new config(TEST_CONFIG_FILE, TEST_EMPTY);
+
+      var resultValue = configObj.getFromObject(['jim', 'sheila'], TEST_OBJECT);
+
+      assert.equal(typeof(resultValue), 'string', 'Should be a string');
+      assert.equal(resultValue, '6502', 'Should match the correct value, was: ' + resultValue);
+      done();
+    });
+
+    it('Should return an object result for an array key', function(done) {
+      var configObj = new config(TEST_CONFIG_FILE, TEST_EMPTY);
+
+      var resultValue = configObj.getFromObject(['jim', 'dundee'], TEST_OBJECT);
+
+      assert.equal(typeof(resultValue), 'object', 'Should be an object');
+      assert.equal(resultValue.crocodile, 'Oz', 'Should match the correct value, was: ' + resultValue.crocodile);
+      done();
+    });
+
+    it('Should return a string result for a long array key', function(done) {
+      var configObj = new config(TEST_CONFIG_FILE, TEST_EMPTY);
+
+      var resultValue = configObj.getFromObject(['jim', 'dundee', 'crocodile'], TEST_OBJECT);
+
+      assert.equal(typeof(resultValue), 'string', 'Should be a string');
+      assert.equal(resultValue, 'Oz', 'Should match the correct value, was: ' + resultValue);
+      done();
+    });
+
+    it('Should return an empty string result for an incorrect long array key', function(done) {
+      var configObj = new config(TEST_CONFIG_FILE, TEST_EMPTY);
+
+      var resultValue = configObj.getFromObject(['bibble', 'waffle', 'blip'], TEST_OBJECT);
+
+      assert.equal(typeof(resultValue), 'string', 'Should be a string');
+      assert.equal(resultValue, '', 'Should match the correct value, was: ' + resultValue);
+      done();
+    });
+
+    it('Should return an empty string result for an incorrect short array key', function(done) {
+      var configObj = new config(TEST_CONFIG_FILE, TEST_EMPTY);
+
+      var resultValue = configObj.getFromObject(['bibble'], TEST_OBJECT);
+
+      assert.equal(typeof(resultValue), 'string', 'Should be a string');
+      assert.equal(resultValue, '', 'Should match the correct value, was: ' + resultValue);
+      done();
+    });
+
+    it('Should return an empty string result for an incorrect string key', function(done) {
+      var configObj = new config(TEST_CONFIG_FILE, TEST_EMPTY);
+
+      var resultValue = configObj.getFromObject('bibble', TEST_OBJECT);
+
+      assert.equal(typeof(resultValue), 'string', 'Should be a string');
+      assert.equal(resultValue, '', 'Should match the correct value, was: ' + resultValue);
+      done();
+    });
+  });
+  
+  
   describe('Getting a simple value from common with no environment file', function() {
     it('Should set loaded to true and also return the value', function(done) {
       var resultObj = new config(TEST_CONFIG_FILE, TEST_EMPTY);
@@ -204,6 +306,45 @@ describe('Configuration', function() {
       
       assert.equal(resultLoaded, true, 'Should load the config files');
       assert.equal(resultValue, TEST_SIMPLE_KEY_VALUE, 'Should match the correct value, was: ' + resultValue);
+      done();
+    });
+  });
+
+  describe('Using array key from common with no environment file', function() {
+    it('Should set loaded to true and also return the correct value', function(done) {
+      var resultObj = new config(TEST_CONFIG_FILE, TEST_EMPTY);
+      var resultLoaded = resultObj.loadConfiguration();
+
+      var resultValue = resultObj.get(TEST_ARRAY_KEY);
+
+      assert.equal(resultLoaded, true, 'Should load the config files');
+      assert.equal(resultValue, TEST_ARRAY_KEY_VALUE, 'Should match the correct value, was: ' + resultValue);
+      done();
+    });
+  });
+
+  describe('Using array key from common and environment file merging same value', function() {
+    it('Should set loaded to true and also return the correct value', function(done) {
+      var resultObj = new config(TEST_CONFIG_FILE, TEST_CONFIG_DEV_FILE);
+      var resultLoaded = resultObj.loadConfiguration();
+
+      var resultValue = resultObj.get(TEST_ARRAY_KEY);
+
+      assert.equal(resultLoaded, true, 'Should load the config files');
+      assert.equal(resultValue, TEST_ARRAY_KEY_VALUE, 'Should match the correct value, was: ' + resultValue);
+      done();
+    });
+  });
+  
+  describe('Using array key from common and environment file merging different value', function() {
+    it('Should set loaded to true and also return the correct value', function(done) {
+      var resultObj = new config(TEST_CONFIG_FILE, TEST_CONFIG_DEV_FILE);
+      var resultLoaded = resultObj.loadConfiguration();
+
+      var resultValue = resultObj.get(TEST_MERGED_KEY);
+
+      assert.equal(resultLoaded, true, 'Should load the config files');
+      assert.equal(resultValue, TEST_MERGED_KEY_VALUE, 'Should match the correct value, was: ' + resultValue);
       done();
     });
   });

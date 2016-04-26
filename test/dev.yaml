@@ -1,7 +1,7 @@
 
 webpage_client:
   default_client: selenium
-  base-url: http://localhost/
+  base_url: http://localhost/
   selenium:
     browser: firefox
     

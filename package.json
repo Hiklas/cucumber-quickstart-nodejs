@@ -2,7 +2,7 @@
   "name": "cucumber-quickstart-nodejs",
   "title": "Cucumber Quickstart",
   "description": "Basic cucumber framework in node.js",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "homepage": "https://github.com/Hiklas/cucumber-quickstart-nodejs",
   "author": {
     "name": "Hiklas Ltd"
@@ -22,7 +22,8 @@
     "js-yaml": "~3.4.3",
     "log4js": "~0.6.32",
     "object-merge": "~2.5.1",
-    "is_js": "~0.8.0"
+    "is_js": "~0.8.0",
+    "selenium-webdriver": "~2.53.1"
   },
   "devDependencies": {
     "grunt": "~0.4.5",

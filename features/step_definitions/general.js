@@ -3,8 +3,8 @@ var log = log4js.getLogger('general-steps');
 
 module.exports = function() {
   
-  this.Given(/^I am using a(.*) client$/, function(callback) {
-    
+  this.Given(/^I am using a(.*) client$/, function(client, callback) {
+    log.trace('Given I am using a "%s" client', client)
   });
   
 

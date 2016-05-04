@@ -2,6 +2,7 @@ module.exports = function(grunt) {
 
   // Add the grunt-mocha-test tasks.
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-cucumberjs');
 
   // Project configuration.
   grunt.initConfig({
@@ -17,11 +18,19 @@ module.exports = function(grunt) {
           },
           src: ['test/**/*_test.js']
         }
-      }
+      },
+    
+    cucumberjs: {
+      options: {
+        format: 'pretty'
+      },
+      
+      features: [] 
+    }
   });
 
 
   // Default task(s).
-  grunt.registerTask('default', ['mochaTest']);
+  grunt.registerTask('default', ['cucumberjs']);
   grunt.registerTask('test', [ 'mochaTest']);
 };

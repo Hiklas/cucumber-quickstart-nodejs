@@ -10,6 +10,9 @@ Feature: Simple testing for the home page
     Given I open the browser
      When I navigate to the Hiklas Home page
      Then The page I am on has the correct title
-      And There is a Carousel element
 
+  Scenario: There is a Carousel on the page
+    Given I open the browser
+    When I navigate to the Hiklas Home page
+    Then There is a Carousel element
 

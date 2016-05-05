@@ -12,9 +12,12 @@ log.trace('world.js');
 log.debug('Common config: %s', common_config);
 log.debug('Environment config: %s', env_config);
 
+log.trace('Creating configuration');
+var configuration = new Configuration(common_config, env_config);
+
 function World() {
   log.trace('Creating world object');
-  this.config = new Configuration(common_config, env_config);
+  this.config = configuration;
   this.web_client = null;
 }
 

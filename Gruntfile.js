@@ -24,7 +24,7 @@ module.exports = function(grunt) {
       options: {
         format: 'pretty',
         steps: 'features/step_definitions',
-        support: 'features/support',
+        require: 'features/support',
         debug: true
       },
       

@@ -8,7 +8,7 @@ Feature: Simple testing for the home page
 
   Scenario: I navigate to the home page
     Given I open the browser
-     When I navigate to the Hiklas Home Page
+     When I navigate to the Hiklas Home page
      Then The page I am on has the correct title
       And There is a Carousel element
 

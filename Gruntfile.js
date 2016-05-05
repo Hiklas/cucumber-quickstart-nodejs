@@ -22,7 +22,10 @@ module.exports = function(grunt) {
     
     cucumberjs: {
       options: {
-        format: 'pretty'
+        format: 'pretty',
+        steps: 'features/step_definitions',
+        support: 'features/support',
+        debug: true
       },
       
       features: [] 

@@ -2,13 +2,16 @@
 json_schema: 'data/json_schema'
 
 webpage_client:
-  default_client: selenium
-  base_url: http://www.hiklas.com/
-  selenium:
-    browser: FIREFOX
-  phantom:
-  headless:
-
+  base_url: http://www.hiklas.com
+  
+  clients:
+    Web Browser: 
+      driver-file: selenium-driver
+      options: 
+        browser: FIREFOX
+    Phantom Browser:
+       driver-file: phantom-driver
+  
 #
 # The screens data compresses quite alot of information into one table.
 # First of all it provides a mapping between a 'human readable' screen name 
@@ -24,7 +27,7 @@ webpage_client:
 #   form_data: What keys for form data do we need to supply for a POST
 #      
 screens:
-  Hiklas Home Page:
+  Hiklas Home:
     url: /
     title: Hiklas Ltd
     check_for_ids: 

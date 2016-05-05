@@ -7,8 +7,8 @@ module.exports = function () {
   
   this.Given(/^I am using a (.+) client$/, function (clientName, callback) {
     log.trace('Given I am using a "%s" client', clientName);
-
-    this.pending(callback);
+    this.retrieveClient(clientName);
+    callback();
   });
 
 

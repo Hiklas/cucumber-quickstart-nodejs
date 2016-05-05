@@ -37,11 +37,37 @@ function Galaxy() {
   this.config = new Configuration(common_config, env_config);
 }
 
+var extend = Galaxy.prototype;
+
+extend.pageUrlFromName = function(pageName) {
+  log.trace('pageUrlFromName - Resolving page name: %s', pageName);
+  var pageRelativeUrl = this.config.get(['screens', pageName, 'url']);
+  var pageFullUrl = this.fullUrl(pageRelativeUrl);
+  log.trace('Found full url: %s', pageFullUrl);
+  return pageFullUrl;
+};
+
+
+extend.fullUrl = function(relativeUrl) {
+  log.trace('fullUrl - Relative url: %s', relativeUrl);
+  var baseUrl = this.config.get(['webpage_client', 'base_url']);
+  log.trace('baseUrl: %s', baseUrl);
+  return baseUrl + relativeUrl;
+};
+
+
+extend.retrieveClient = function(clientName) {
+  log.trace('retrieveClient - client: %s', clientName);
+  
+};
+
 // This is essentially a shared object that all World objects get
 // it means that we can store state across scenario invocations
 var galaxyForAllWorlds = new Galaxy();
 
 module.exports = function() {
+  
+  // Hook that ensures that the galaxy is set for each World instance
   this.Before(function(scenario) {
     log.trace('Setting galaxy');
     this.galaxy = galaxyForAllWorlds;

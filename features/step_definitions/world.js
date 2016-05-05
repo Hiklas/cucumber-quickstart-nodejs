@@ -12,10 +12,13 @@ module.exports = function() {
   this.World = World;
 };
 
-var ext = World.prototype;
+var extend = World.prototype;
 
-ext.pending = function(callback) {
+extend.pending = function(callback) {
   callback.apply(this, [null, 'pending']);
 };
 
-
+extend.retrieveClient = function(clientName) {
+  log.trace('retrieveClient - client name: %s', clientName);
+  this.current_client = this.galaxy.retrieveClient(clientName);
+};

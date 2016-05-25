@@ -4,9 +4,7 @@
  * since we can't guarantee the order that files will be loaded.
  * Everything that is 'global' for tests needs to go in here.  Also the 
  * logging setup and loading of the configuration files is handled here.
- * 
- * 
- * 
+ *
  */
   
 var log4js = require('log4js');
@@ -35,6 +33,7 @@ log.debug('Environment config: %s', env_config);
 function Galaxy() {
   log.trace('Creating configuration');
   this.config = new Configuration(common_config, env_config);
+  this.currentClients = {};
 }
 
 var extend = Galaxy.prototype;
@@ -58,8 +57,32 @@ extend.fullUrl = function(relativeUrl) {
 
 extend.retrieveClient = function(clientName) {
   log.trace('retrieveClient - client: %s', clientName);
+  return this.retrieveOrCreateClient(clientName);
+};
+
+
+extend.retrieveNewClient = function(clientName) {
+  log.trace('retrieveNewClient - client: %s', clientName);
+  return this.createNewClient(clientName);
+};
+
+
+extend.createNewClient = function(clientName) {
+  log.trace('createNewClient - client: %s', clientName);
+  var currentClient = this.currentClientForName(clientName);
+  if(currentClient) {
+    log.trace('Existing client, destroying');
+    currentClient.destroy();
+  }
   
 };
+
+
+extend.currentClientForName = function(clientName) {
+  log.trace('currentClientForName - client: %s', clientName);
+  return this.currentClients[clientName];
+};
+
 
 // This is essentially a shared object that all World objects get
 // it means that we can store state across scenario invocations

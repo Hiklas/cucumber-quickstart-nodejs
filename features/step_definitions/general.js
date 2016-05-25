@@ -11,6 +11,12 @@ module.exports = function () {
     callback();
   });
 
+  this.Given(/^I am using a new (.+) client$/, function (clientName, callback) {
+    log.trace('Given I am using a new "%s" client', clientName);
+    this.retrieveNewClient(clientName);
+    callback();
+  });
+  
 
   this.Given(/^I open the browser$/, function (callback) {
     log.trace('I open the browser');

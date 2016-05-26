@@ -33,7 +33,7 @@ log.debug('Environment config: %s', env_config);
 function Galaxy() {
   log.trace('Creating configuration');
   this.config = new Configuration(common_config, env_config);
-  this.currentClients = {};
+  this.currentDrivers = {};
 }
 
 var extend = Galaxy.prototype;
@@ -66,13 +66,34 @@ extend.retrieveNewClient = function(clientName) {
   return this.createNewClient(clientName);
 };
 
+extend.getOrLoadDriverFor = function(clientName) {
+  log.trace('getOrLoadDriverFor - client: %s', clientName);
+  var driver = this.currentDrivers[clientName];
+  if(!driver) {
+    var driverClass = require(this.driverNameFromClientName(clientName));
+    this.currentDrivers[clientName] = driver = new driverClass(this.config);
+  }
+  return driver;
+};
+
+extend.driverNameFromClientName = function(clientName) {
+  var driverName = './lib' + clientName + '-driver';
+  log.debug('Calculated driverName as "%s" from client name "%s"', driverName, clientName);
+  return driverName;
+};
 
 extend.createNewClient = function(clientName) {
   log.trace('createNewClient - client: %s', clientName);
-  var currentClient = this.currentClientForName(clientName);
-  if(currentClient) {
-    log.trace('Existing client, destroying');
-    currentClient.destroy();
+  var currentDriver = this.getOrLoadDriverFor(clientName);
+  var resultClient = null;
+  if(currentDriver) {
+    if(currentDriver.client) {
+      log.trace('Client currently exists, destroying');
+      currentDriver.destroy();
+    }
+    resultClient = currentDriver.create()
+  } else {
+    log.error('Could not get a driver for the given client name: %s', clientName);
   }
   
 };
